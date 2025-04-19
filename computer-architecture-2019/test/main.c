@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <time.h>
 
 #define M 4
 #define N 4
 
 int main() {
+    const clock_t start = clock();
+
     double A[M][N] = {
         {1, 0, 3.14, 2.72},
         {2.72, 1, 0, 3.14},
@@ -26,9 +29,14 @@ int main() {
         }
     }
 
+    const clock_t end = clock();
+    const double time = (double) (end - start) / CLOCKS_PER_SEC;
+    printf("time: %lf[ms]\n", time);
+
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
             printf("C[%d][%d] = %lf\n", i, j, C[i][j]);
         }
     }
+
 }
