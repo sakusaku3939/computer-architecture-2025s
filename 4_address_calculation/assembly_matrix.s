@@ -81,6 +81,7 @@ main:
 
 ; --- Loop j Start ---
 .L5:
+    ; --- Contents of C[i][j] += A[i][k] * B[k][j] ---
 	cmpl	$2, -4(%rbp)
 	jg	.L4
 	movl	-4(%rbp), %eax
@@ -93,7 +94,7 @@ main:
 	addq	%rcx, %rax
 	leaq	0(,%rax,8), %rdx
 	leaq	C(%rip), %rax
-	movsd	(%rdx,%rax), %xmm1
+	movsd	(%rdx,%rax), %xmm1  ; --- load to SIMD Register %xmm1 ---
 	movl	-8(%rbp), %eax
 	movslq	%eax, %rcx
 	movl	-12(%rbp), %eax
@@ -104,7 +105,7 @@ main:
 	addq	%rcx, %rax
 	leaq	0(,%rax,8), %rdx
 	leaq	A(%rip), %rax
-	movsd	(%rdx,%rax), %xmm2
+	movsd	(%rdx,%rax), %xmm2  ; --- load to SIMD Register %xmm2 ---
 	movl	-4(%rbp), %eax
 	movslq	%eax, %rcx
 	movl	-8(%rbp), %eax
@@ -115,9 +116,9 @@ main:
 	addq	%rcx, %rax
 	leaq	0(,%rax,8), %rdx
 	leaq	B(%rip), %rax
-	movsd	(%rdx,%rax), %xmm0
-	mulsd	%xmm2, %xmm0
-	addsd	%xmm1, %xmm0
+	movsd	(%rdx,%rax), %xmm0  ; --- load to SIMD Register %xmm0 ---
+	mulsd	%xmm2, %xmm0    ; --- floating point multiply ---
+	addsd	%xmm1, %xmm0    ; --- floating point add ---
 	movl	-4(%rbp), %eax
 	movslq	%eax, %rcx
 	movl	-12(%rbp), %eax
