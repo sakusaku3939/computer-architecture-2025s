@@ -1,12 +1,12 @@
 #include <stdio.h>
 
 int main() {
-    float x = 1.0f;
+    double x = 1.0;
     int count = 0;
 
-    while (x > 0.0f) {
+    while (x != (x * 2.0)) {
         printf("%d, x: %.20e\n", count, x);
-        x /= 2.0f;
+        x *= 2.0;
         count++;
     }
 
